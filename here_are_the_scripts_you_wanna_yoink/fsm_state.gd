@@ -105,8 +105,8 @@ func set_state_active(active: bool):
 		emit_signal("state_exited", self)
 
 # the state only sends transition requests, when it's not in a transition already.
-func can_transition() -> bool:
-	return not (is_exiting or is_entering)
+func is_busy() -> bool:
+	return is_exiting or is_entering
 
 # if this node gets freed for some reason, the attached fsm will unregister it.
 func _exit_tree():
