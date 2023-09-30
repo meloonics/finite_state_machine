@@ -1,5 +1,5 @@
-# finite_state_machine
-A demo for a finite state machine in Godot 4.x.
+# Finite State Machine for Godot 4.x
+A demo for a finite state machine in Godot 4.x. Including a short demo and two scripts for you to use and abuse.
 
 This finite state machine is capable of manipulating any node you assign to it during `_physics_process`. The components (host-node, fsm-node, state-nodes) do not have any dependencies on each other, meaning that you can put the fsm and its states anywhere in the scene-tree if need be. You can add and remove states on the fly and even replace the host-node at runtime. Wanna make a game where you play as a poltergeist posessing things? No problem! Wanna design a sleeping enemy, that only attacks when the player is running? Easy! 
 The FSM comes with a bunch of signals to communicate its changes to the rest of the scene. That way you can compose complex interactions and make NPC reactions to player behavior easy!
