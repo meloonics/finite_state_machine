@@ -202,7 +202,7 @@ func _physics_process(delta) -> void:
 					current_state.update(delta)
 				
 				# runs once per frame but only when not entering or exiting the state.
-				if current_state.can_transition:
+				if current_state.can_transition():
 					current_state.handle_transition()
 
 func _track_state(state : FSMState) -> void:
