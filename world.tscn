@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1tbm8tfy4aun"]
+
+[ext_resource type="PackedScene" uid="uid://c22cqvpes02h7" path="res://char.tscn" id="1_i6oa7"]
+[ext_resource type="Script" path="res://here_are_the_scripts_you_wanna_yoink/fsm.gd" id="2_pmx1b"]
+[ext_resource type="Script" path="res://state_idle.gd" id="3_0wojo"]
+[ext_resource type="Script" path="res://state_move.gd" id="4_2a2mh"]
+[ext_resource type="Script" path="res://state_change_char.gd" id="5_s7xy3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cuvoa"]
+size = Vector2(1174, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6g3g"]
+size = Vector2(18, 673)
+
+[node name="World" type="Node2D"]
+
+[node name="Char" parent="." instance=ExtResource("1_i6oa7")]
+position = Vector2(252, 306)
+other_guy_path = NodePath("../Char2")
+fsm_path = NodePath("../FSM")
+
+[node name="Char2" parent="." instance=ExtResource("1_i6oa7")]
+position = Vector2(880, 288)
+other_guy_path = NodePath("../Char")
+
+[node name="WorldBounds" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBounds"]
+position = Vector2(577, 0)
+shape = SubResource("RectangleShape2D_cuvoa")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBounds"]
+position = Vector2(577, 648)
+shape = SubResource("RectangleShape2D_cuvoa")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldBounds"]
+position = Vector2(-1, 326.5)
+shape = SubResource("RectangleShape2D_y6g3g")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldBounds"]
+position = Vector2(1153, 333)
+shape = SubResource("RectangleShape2D_y6g3g")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(575, 323)
+
+[node name="FSM" type="Node" parent="."]
+script = ExtResource("2_pmx1b")
+default_state_path = NodePath("state_idle")
+
+[node name="state_idle" type="Node" parent="FSM"]
+script = ExtResource("3_0wojo")
+
+[node name="state_move" type="Node" parent="FSM"]
+script = ExtResource("4_2a2mh")
+
+[node name="state_change_char" type="Node" parent="FSM"]
+script = ExtResource("5_s7xy3")
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 274.0
+offset_top = 604.0
+offset_right = 857.0
+offset_bottom = 630.0
+text = "Arrow Keys to move. Spacebar to attach the FSM to the other Player. Enjoy~"
+
+[connection signal="host_connected" from="FSM" to="Char" method="show_state"]
+[connection signal="host_connected" from="FSM" to="Char2" method="show_state"]
+[connection signal="state_entered" from="FSM" to="Char" method="update_state"]
+[connection signal="state_entered" from="FSM" to="Char2" method="update_state"]
